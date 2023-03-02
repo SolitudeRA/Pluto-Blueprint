@@ -1,0 +1,24 @@
+version : "3.8"
+
+services:
+  proxy-nginx:
+    container_name: proxy-nginx
+    image         : bitnami/nginx:latest
+    user          : root
+    tty           : true
+    restart       : always
+    network_mode  : "host"
+    volumes       :
+      - /var/luna/logs/wordpress/:/opt/bitnami/nginx/logs/wordpress/
+      - /var/luna/logs/jenkins/:/opt/bitnami/nginx/logs/jenkins/
+      - /var/luna/logs/postfixadmin/:/opt/bitnami/nginx/logs/postfixadmin/
+      - ./gateway/sites/luna-adminer.conf:/opt/bitnami/nginx/conf/server_blocks/luna-adminer.conf
+      - ./gateway/sites/luna-wordpress.conf:/opt/bitnami/nginx/conf/server_blocks/luna-wordpress.conf:ro
+      - ./gateway/sites/luna-nextcloud.conf:/opt/bitnami/nginx/conf/server_blocks/luna-nextcloud.conf:ro
+      - ./gateway/sites/luna-jenkins.conf:/opt/bitnami/nginx/conf/server_blocks/luna-jenkins.conf:ro
+      - ./gateway/sites/luna-postfixadmin.conf:/opt/bitnami/nginx/conf/server_blocks/luna-postfixadmin.conf:ro
+      - ./gateway/certs/dhparam.pem:/opt/bitnami/nginx/conf/certs/dhparam.pem:ro
+      - ./gateway/certs/authenticated_origin_pull_ca.pem:/opt/bitnami/nginx/conf/authenticated_origin_pull_ca.pem:ro
+      - ./gateway/certs/origin_ca_rsa_root.pem:/opt/bitnami/nginx/conf/certs/origin_ca_rsa_root.pem:ro
+      - ./gateway/certs/protogalaxy.me.pem:/opt/bitnami/nginx/conf/certs/protogalaxy.me.pem:ro
+      - ./gateway/certs/protogalaxy.me.key:/opt/bitnami/nginx/conf/certs/protogalaxy.me.key:ro
